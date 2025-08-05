@@ -12,6 +12,15 @@ jobs:
   test:
     environment: Testing
     runs-on: ubuntu-latest
+    #container: node:16-alpine  ## contianer tag is used for defing the runtime environment
+    container :
+      image: node:16-alpine
+      options: --user node # run as non-root user
+      ##env: 
+      ## These are enironment variables that is required by the image
+      ## All the jobs in the test job will run in defined container , although the container is defined at job level, it can be overridden at step level
+      ## The  ubuntu-latest defined on the job level is used to host the image but he container is used to run the steps, the steps will not hold direct acess to the machine and will not have access to the host machine's environment variables direct acess to the tool made avilable by bthat machine
+
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: cluster0.igjcfza.mongodb.net
