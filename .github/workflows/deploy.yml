@@ -16,7 +16,7 @@ jobs:
     container :
       image: node:16-alpine
       #options: --user node # run as non-root user
-      options: root # run as root user
+      options: --privileged  # run as root user
       ##env: 
       ## These are enironment variables that is required by the image
       ## All the jobs in the test job will run in defined container , although the container is defined at job level, it can be overridden at step level
