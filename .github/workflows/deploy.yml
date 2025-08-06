@@ -13,11 +13,11 @@ jobs:
     environment: Testing
     runs-on: ubuntu-latest
     #container: node:16-alpine  ## contianer tag is used for defing the runtime environment
-    container :
+    container:
       image: node:16-alpine
       #options: --user node # run as non-root user
-      options: --privileged  # run as root user
-      ##env: 
+      options: --privileged # run as root user
+      ##env:
       ## These are enironment variables that is required by the image
       ## All the jobs in the test job will run in defined container , although the container is defined at job level, it can be overridden at step level
       ## The  ubuntu-latest defined on the job level is used to host the image but he container is used to run the steps, the steps will not hold direct acess to the machine and will not have access to the host machine's environment variables direct acess to the tool made avilable by bthat machine
@@ -25,8 +25,8 @@ jobs:
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb ## same as service label to help container create same environemnt
       MONGODB_CLUSTER_ADDRESS: mongodb ## same as service label to help container create same environemnt
-      MONGODB_USERNAME: ${{ MONGO_INITDB_ROOT_USERNAME }}
-      MONGODB_PASSWORD: ${{ MONGO_INITDB_ROOT_PASSWORD }}
+      MONGODB_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
       ##MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       ##MONGODB_CLUSTER_ADDRESS: cluster0.igjcfza.mongodb.net
       ##MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
@@ -36,8 +36,8 @@ jobs:
       mongodb:
         image: mongo
         env:
-          MONGO_INITDB_ROOT_USERNAME: ${{ MONGO_INITDB_ROOT_USERNAME }}
-          MONGO_INITDB_ROOT_PASSWORD: ${{ MONGO_INITDB_ROOT_PASSWORD }}
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
     steps:
       - name: Get Code
         uses: actions/checkout@v3
@@ -62,7 +62,7 @@ jobs:
       - name: Output information
         env:
           PORT: 3000
-        run: |        
+        run: |
           echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
           echo "${{ env.PORT }}"
